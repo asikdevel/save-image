@@ -1,6 +1,6 @@
 {
   "name": "Rainy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "iOS & android Save image file(gif, jpg, png) to photo album.",
   "cordova": {
     "id": "net.zhaopao.cordova.savetophotoalbum",
