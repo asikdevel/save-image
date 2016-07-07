@@ -1,5 +1,5 @@
 {
-  "name": "Rainy",
+  "name": "cordova-save-image-ios-android",
   "version": "0.0.2",
   "description": "iOS & android Save image file(gif, jpg, png) to photo album.",
   "cordova": {
