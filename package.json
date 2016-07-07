@@ -1,0 +1,37 @@
+{
+  "name": "Rainy",
+  "version": "0.0.1",
+  "description": "iOS & android Save image file(gif, jpg, png) to photo album.",
+  "cordova": {
+    "id": "net.zhaopao.cordova.savetophotoalbum",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RainyTest/save-image.git"
+  },
+  "keywords": [
+    "gif",
+    "image base64 data",
+    "photo album",
+    "photos gallery",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "Rainy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RainyTest/save-image/issues"
+  },
+  "homepage": "https://github.com/RainyTest/save-image#readme"
+}
