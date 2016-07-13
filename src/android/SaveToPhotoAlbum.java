@@ -67,8 +67,8 @@ public class SaveToPhotoAlbum extends CordovaPlugin {
 //					saveFile(mBitmap, filename);
 					
 					callbackContext.success();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+//				} catch (IOException e1) {
+//					e1.printStackTrace();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
