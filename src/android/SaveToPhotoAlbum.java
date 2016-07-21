@@ -41,7 +41,6 @@ public class SaveToPhotoAlbum extends CordovaPlugin {
 
 	private final static String ALBUM_PATH = Environment.getExternalStorageDirectory() + "/zhaopao/";
 	private Bitmap mBitmap;
-	private String mFileName;
 
 	// Consts
 	public static final String EMPTY_STR = "";
@@ -54,21 +53,25 @@ public class SaveToPhotoAlbum extends CordovaPlugin {
 	public static final String REMOVE_IMAGE_ACTION = "removeImageFromLibrary";
 
 	@Override
-	public boolean execute(String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+	public boolean execute(String action, final JSONArray args, final CallbackContext callbackContext)
+			throws JSONException {
 		cordova.getThreadPool().execute(new Runnable() {
 			public void run() {
 				try {
 					final String imgname = args.getString(0);
 					String filename = imgname.substring(imgname.lastIndexOf("/") + 1);
 					getImage(imgname, filename);
-					
-					MediaStore.Images.Media.insertImage(cordova.getActivity().getContentResolver(), mBitmap, filename, filename);
 
-//					saveFile(mBitmap, filename);
-					
+					// MediaStore.Images.Media.insertImage(cordova.getActivity().getContentResolver(),
+					// imgname, filename, filename);
+
+					// saveFile(mBitmap, filename);
+					// File myCaptureFile = new File(imgname);
+					// scanPhoto(myCaptureFile);
+
 					callbackContext.success();
-//				} catch (IOException e1) {
-//					e1.printStackTrace();
+					// } catch (IOException e1) {
+					// e1.printStackTrace();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -108,29 +111,48 @@ public class SaveToPhotoAlbum extends CordovaPlugin {
 		bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 		bos.flush();
 		bos.close();
-		
+
 		scanPhoto(myCaptureFile);
 	}
 
 	private void getImage(String url, String filename) {
 		try {
 			String filePath = url;
-			mFileName = filename;
+			
+			File dirFile = new File(ALBUM_PATH);
+			if (!dirFile.exists()) {
+				dirFile.mkdir();
+			}
 
-			// 以下是取得图片的两种方法
-			//////////////// 方法1：取得的是byte数组, 从byte数组生成bitmap
-			// byte[] data = getImage(filePath);
-			// if (data != null) {
-			// mBitmap = BitmapFactory.decodeByteArray(data, 0,
-			// data.length);// bitmap
-			// } else {
-			// }
-			////////////////////////////////////////////////////////
-
-			// ******** 方法2：取得的是InputStream，直接从InputStream生成bitmap
-			// ***********/
-			mBitmap = BitmapFactory.decodeStream(getImageStream(filePath));
-			// ********************************************************************/
+			InputStream is = getImageStream(filePath);
+			FileOutputStream fos = null;
+			// 创建文件名
+			File file = new File(ALBUM_PATH+filename);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			// 打开一个已存在文件的输出流
+			fos = new FileOutputStream(file);
+			// 将输入流is写入文件输出流fos中
+			int ch = 0;
+			try {
+				while ((ch = is.read()) != -1) {
+					fos.write(ch);
+				}
+				
+				//插入到图库，然后删除
+				MediaStore.Images.Media.insertImage(cordova.getActivity().getContentResolver(),
+						ALBUM_PATH+filename, filename, filename);
+				file.delete();
+				
+				scanPhoto(file);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} finally {
+				// 关闭输入流等
+				fos.close();
+				is.close();
+			}
 
 			// 发送消息，通知handler在主线程中更新UI
 			// connectHanlder.sendEmptyMessage(0);
@@ -147,7 +169,7 @@ public class SaveToPhotoAlbum extends CordovaPlugin {
 		public void run() {
 			try {
 				String filePath = "http://img.my.csdn.net/uploads/201211/21/1353511891_4579.jpg";
-				mFileName = "test.jpg";
+				String filename = "test.jpg";
 
 				// 以下是取得图片的两种方法
 				//////////////// 方法1：取得的是byte数组, 从byte数组生成bitmap
@@ -350,6 +372,8 @@ public class SaveToPhotoAlbum extends CordovaPlugin {
 	private void scanPhoto(File imageFile) {
 		Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
 		Uri contentUri = Uri.fromFile(imageFile);
+		
+		Log.e("net.zhaopao.app", "contentUri: " + contentUri.getPath());
 
 		mediaScanIntent.setData(contentUri);
 
