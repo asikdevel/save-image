@@ -1,6 +1,6 @@
 {
   "name": "cordova-save-image-ios-android",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "iOS & android Save image file(gif, jpg, png) to photo album.",
   "cordova": {
     "id": "net.zhaopao.cordova.savetophotoalbum",
