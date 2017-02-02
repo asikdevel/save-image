@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="net.zhaopao.cordova.savetophotoalbum" version="0.0.8">
-
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="net.zhaopao.cordova.savetophotoalbum" version="0.0.9">
   <engines>
     <engine name="cordova" version=">=3.0.0" />
     </engines>
 
     <name>SaveToPhotoAlbum</name>
 
-    <description>iOS & android Save image file(gif, jpg, png) to photo album.</description>
+    <description>iOS and android Save image file(gif, jpg, png) to photo album.</description>
 
     <author>Rainy</author>
 
@@ -53,5 +52,4 @@
         </feature>
       </config-file>
     </platform>
-
   </plugin>
